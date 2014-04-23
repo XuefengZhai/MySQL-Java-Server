@@ -250,7 +250,36 @@ public class ServerThread extends Thread {
             		out.writeObject(success2);
             		
             		break;
-                 	}
+                 	
+            	
+            	case 9:
+            		String PatName = value.get(0);
+            		String PatAge = value.get(1);
+            		String PatGender = value.get(2);
+            		String PatInsurance = value.get(3);
+            		String PatID4 = value.get(4);
+            		System.out.println("PatName"+PatName);
+            		System.out.println("PatAge"+PatAge);
+            		System.out.println("PatGender"+PatGender);
+            		System.out.println("PatInsurance"+PatInsurance);
+            		System.out.println("PatID4"+PatID4);
+            		
+            		Patient p2 = new Patient();
+            		PatientInterface PI2 = new PatientInterface();
+            		p2.setPatAge(PatAge);
+            		p2.setPatID(PatID4);
+            		p2.setPatGender(PatGender);
+            		p2.setPatInsurance(PatInsurance);
+            		p2.setPatName(PatName);
+            		p2.setPatPsw(PI2.getPatient(PatID4).getPatPsw());
+            		
+            		PI2.updatePatient(p2);
+            		
+            		out.writeObject("1");
+            		out.writeObject(p2);
+            		            		
+            		break;
+            	}
             }
 
             out.close();
