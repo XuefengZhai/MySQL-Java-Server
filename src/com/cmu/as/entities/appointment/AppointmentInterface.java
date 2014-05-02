@@ -190,5 +190,17 @@ public class AppointmentInterface {
 
     }
     
+    public boolean appExist(String date, String time, String DocID) throws SQLException {
+    	
+        dbHelper = new DBHelper();
+        
+        Boolean result = dbHelper.isExist("SELECT * FROM appointment WHERE AppTime =\""+time+"\" AND AppDate =\""+date+"\"AND DocID =\""+DocID+"\"");
+
+    	
+    	return result;
+    	
+    	
+    }
+    
     
 }

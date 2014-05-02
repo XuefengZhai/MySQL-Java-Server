@@ -28,18 +28,20 @@ import java.util.Map;
  */
 public class ServerThread extends Thread {
 
-    private ServerSocket serverSocket;
     private Socket clientSocket;
     private ObjectOutputStream out;
     private ObjectInput in;
     private Object inObject;
+    
+    public ServerThread(Socket sock){
+    	this.clientSocket = sock;
+    }
 
     @SuppressWarnings("unchecked")
 	public void run() {
 
         try {
-            serverSocket = new ServerSocket(8888);
-            clientSocket = serverSocket.accept();
+            
             System.out.println("New Connection!");
 
             out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -55,6 +57,8 @@ public class ServerThread extends Thread {
             		key =  entry.getKey();
             		System.out.println("Choice:"+key);
             		value = entry.getValue();
+            		
+
             		
             	}
             
@@ -76,10 +80,30 @@ public class ServerThread extends Thread {
                     out.writeObject(PI.getPatient(PatID));
                     System.out.println("Send patient! ");
                     
+            		}
+            		
+            		break;
+            	
+            	case 50:
+            		
+                    ArrayList<Hospital> MallHos = new ArrayList<Hospital>();
+                    
+                    HospitalInterface HI5 = new HospitalInterface();
+                    
+                    MallHos = HI5.getHospitalList();
+
+                    out.writeObject(MallHos);
+                    
+                    System.out.println("Send all hospital! ");
+                    
+            		break;
+            	
+            	case 51:
+            		
                     //send hospital within 3 miles
                     
-                    Double lat = Double.parseDouble(value.get(2));
-                    Double lon = Double.parseDouble(value.get(3));
+                    Double lat = Double.parseDouble(value.get(0));
+                    Double lon = Double.parseDouble(value.get(1));
                     
                     ArrayList<Hospital> hos = new ArrayList<Hospital>();
                     ArrayList<Hospital> allHos = new ArrayList<Hospital>();
@@ -116,23 +140,39 @@ public class ServerThread extends Thread {
                     }
                     out.writeObject(hos);
                     System.out.println("Send hospital! ");
+            		
+            		
+            		break;
+            		
+            		
+            	case 52:
+            		
+            		String patID52 = value.get(0);
+            		String patName52 = value.get(1);
+            		String patAge52 = value.get(2);
+            		String patGen52 = value.get(3);
+            		String patInsurance52 = value.get(4);
+            		String patPsw52 = value.get(5);
+            		
+            		PatientInterface PI52 = new PatientInterface();
+            		if(PI52.isExist(patID52)){
+            			out.writeObject("0");
+            		}
+            		else{
+            			Patient p52 = new Patient();
+            			p52.setPatID(patID52);
+            			p52.setPatName(patName52);
+            			p52.setPatPsw(patPsw52);
+            			p52.setPatAge(patAge52);
+            			p52.setPatGender(patGen52);
+            			p52.setPatInsurance(patInsurance52);
+            			
+            			PI52.insertPatient(p52);
+            			out.writeObject("1");
             		}
             		
             		break;
-            	
-            	case 50:
             		
-                    ArrayList<Hospital> MallHos = new ArrayList<Hospital>();
-                    
-                    HospitalInterface HI5 = new HospitalInterface();
-                    
-                    MallHos = HI5.getHospitalList();
-
-                    out.writeObject(MallHos);
-                    
-                    System.out.println("Send all hospital! ");
-                    
-            		break;
             		
             	//send department and doctor in the hospital 	
             	case 2:
@@ -295,35 +335,79 @@ public class ServerThread extends Thread {
             		break;
             	
             	case 10:
+            		System.out.println("In case 10");
+            		
             		Boolean logIn = false;
-            		while(!logIn){
             		
             		String docID = value.get(0);
             		String docPsw = value.get(1);
-            		System.out.println(docID+docPsw);
+            		//System.out.println("receive docID+docPsw:"+docID+docPsw);
             		
             		DoctorInterface DocI2 = new DoctorInterface();
             		
             		logIn = DocI2.logIn(docID, docPsw);
-            		System.out.println(logIn);
+            		//System.out.println("logIn Value"+logIn);
             		if(logIn){
             			out.writeObject("1");
-            		}
-            		else
+            			System.out.println("write 1");
+            			}
+            		else{
             			out.writeObject("0");
-            		
             		}
+            		
             		break;
             		
             		
-            	
+            	case 11:
+            		
+            		System.out.println("In case 11!");
+            		String docID11 = value.get(0);
+            		String date = value.get(1);
+            		String time = value.get(2);
+            		
+            		System.out.println("ID+Date+time:"+docID11+date+time);
+            		AppointmentInterface AI11 = new AppointmentInterface();
+            		
+            		if(AI11.appExist(date, time,docID11))
+            		{
+            			out.writeObject("0");
+            		}
+            		
+            		else{
+            			out.writeObject("1");
+            			
+            			Appointment app11 = new Appointment();
+            			app11.setAppAvailability("1");
+            			app11.setAppDate(date);
+            			app11.setAppTime(time);
+            			app11.setAppID(docID11+date+time);
+            			
+            			app11.setDocID(docID11);
+            			DoctorInterface DI11 = new DoctorInterface();
+            			Doctor d11 = DI11.getDoctor(docID11);
+            			app11.setDocName(d11.getDocName());
+            			
+            			DepartmentInterface DepI11 = new DepartmentInterface();
+            			Department Dep11 = DepI11.getDeptByID(d11.getDepID());
+            			
+            			HospitalInterface HosI11 = new HospitalInterface();
+            			Hospital Hos11 = HosI11.getHotByID(Dep11.getHosID());
+            			            			
+            			app11.setHosName(Hos11.getHosName());
+            			
+            			AI11.insertApp(app11);
+            			
+            		}
+            		
+            		break;
+            		
+            		}
             	}
-            }
-
+            
+            
             out.close();
             in.close();
 
-            serverSocket.close();
 
             clientSocket.close();
 

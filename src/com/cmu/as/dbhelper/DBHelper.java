@@ -50,23 +50,20 @@ public final class DBHelper  {
             stmt.execute("DROP TABLE IF EXISTS appointment");
             stmt.execute("DROP TABLE IF EXISTS department");
             stmt.execute("DROP TABLE IF EXISTS doctor");
-            stmt.execute("DROP TABLE IF EXISTS document");
             stmt.execute("DROP TABLE IF EXISTS hospital");
             stmt.execute("DROP TABLE IF EXISTS patient");
             
             
-            stmt.execute("CREATE TABLE hospital (HosID VARCHAR(10) PRIMARY KEY, HosName VARCHAR(20), " +
+            stmt.execute("CREATE TABLE hospital (HosID VARCHAR(50) PRIMARY KEY, HosName VARCHAR(20), " +
                     "HosAdd VARCHAR(100), HosLon VARCHAR(100), HosLat VARCHAR(100),HosDis VARCHAR(100), HosPhone VARCHAR(10))");
-            stmt.execute("CREATE TABLE department (DepID VARCHAR(10) PRIMARY KEY, HosID VARCHAR(10), " +
+            stmt.execute("CREATE TABLE department (DepID VARCHAR(50) PRIMARY KEY, HosID VARCHAR(50), " +
                     "DepName VARCHAR(50))");
-            stmt.execute("CREATE TABLE doctor (DocID VARCHAR(10) PRIMARY KEY, DocPsw VARCHAR(10), DepID VARCHAR(10), " +
+            stmt.execute("CREATE TABLE doctor (DocID VARCHAR(50) PRIMARY KEY, DocPsw VARCHAR(10), DepID VARCHAR(50), " +
                     "DocName VARCHAR(10), DocPhone VARCHAR(10), DocSpeciality VARCHAR(20))");
-            stmt.execute("CREATE TABLE patient (PatID VARCHAR(10) PRIMARY KEY, PatPsw VARCHAR(10), " +
-                    "PatName VARCHAR(10), PatAge VARCHAR(2), PatGender VARCHAR(10), PatInsurance VARCHAR(10))");
-           stmt.execute("CREATE TABLE appointment (AppID VARCHAR(10) PRIMARY KEY, DocID VARCHAR(10), PatID VARCHAR(10), " +
+            stmt.execute("CREATE TABLE patient (PatID VARCHAR(50) PRIMARY KEY, PatPsw VARCHAR(10), " +
+                    "PatName VARCHAR(10), PatAge VARCHAR(3), PatGender VARCHAR(10), PatInsurance VARCHAR(10))");
+           stmt.execute("CREATE TABLE appointment (AppID VARCHAR(50) PRIMARY KEY, DocID VARCHAR(50), PatID VARCHAR(50), " +
                     "AppDate VARCHAR(20), AppTime VARCHAR(20), AppAvailability VARCHAR(10), AppCheckIn VARCHAR(10), HosName VARCHAR(20), DocName VARCHAR(20))");
-            stmt.execute("CREATE TABLE document (DocuID VARCHAR(10) PRIMARY KEY, AppID VARCHAR(10), " +
-                    "DocuContent VARCHAR(200) )");
 
 
             
@@ -206,6 +203,8 @@ public final class DBHelper  {
         Statement stmt = null; 
     	ResultSet rs = null; 
     	
+    	
+    	System.out.println(sql);
         conn = getConnection(); 
         stmt = conn.createStatement(); 
 

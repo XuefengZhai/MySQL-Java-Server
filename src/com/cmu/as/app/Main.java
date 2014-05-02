@@ -1,5 +1,7 @@
 package com.cmu.as.app;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.sql.SQLException;
 
 import com.cmu.as.dbhelper.DBHelper;
@@ -176,10 +178,22 @@ public class Main {
 		app.setDocName("David");
 		AI.insertApp(app);
 		
-	
-		ServerThread thread = new ServerThread();
-		thread.start();
+		boolean listener = true;
+	    try {
+			ServerSocket serverSocket = new ServerSocket(8888);
+			while(listener){
+				
+				new ServerThread(serverSocket.accept()).start();
+				}
+			serverSocket.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+	    
 		
+
 	}
 
 }

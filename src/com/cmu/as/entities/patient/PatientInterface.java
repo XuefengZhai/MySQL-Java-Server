@@ -131,6 +131,16 @@ public class PatientInterface {
     	return result;
     
     }
+     
+     public Boolean isExist(String PatID) throws SQLException{
+         dbHelper = new DBHelper();
+     	Boolean result;
+     	
+     	result = dbHelper.isExist("SELECT * FROM patient WHERE PatID=\""+PatID+"\"");
+     	
+     	return result;
+
+     }
 
 
 }

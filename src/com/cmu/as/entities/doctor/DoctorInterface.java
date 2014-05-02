@@ -153,7 +153,8 @@ public class DoctorInterface {
     	
     	result = dbHelper.isExist("SELECT * FROM doctor WHERE DocID=\""+DocID+"\" AND DocPsw =\""+DocPsw+"\"");
     	
-    
+    	//System.out.println("result is:"+result);
+    	
     	return result;
     
     }

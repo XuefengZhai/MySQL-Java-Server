@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.cmu.as.dbhelper.DBHelper;
+import com.cmu.as.entities.doctor.Doctor;
 
 public class DepartmentInterface {
 
@@ -59,6 +60,34 @@ public class DepartmentInterface {
         return depList;
 
     }
+    
+    
+    
+    public Department getDeptByID(String DepID)throws SQLException{
+        dbHelper = new DBHelper();
+
+        Department d = new Department();
+
+
+
+        ResultSet rs = dbHelper.generalQuery("SELECT * FROM department WHERE DepID=\""+DepID+"\"");
+        while (rs.next()){
+            
+            String DepID2 = rs.getString("DepID");
+            String DepName = rs.getString("DepName");
+            String HosID = rs.getString("HosID");
+
+            
+            d.setDepID(DepID2);
+            d.setDepName(DepName);
+            d.setHosID(HosID);
+
+        }
+
+        return d;
+
+    }
+
     
 
 }
