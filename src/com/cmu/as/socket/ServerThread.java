@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -334,6 +333,7 @@ public class ServerThread extends Thread {
             		            		
             		break;
             	
+            		//doctor sign in
             	case 10:
             		System.out.println("In case 10");
             		
@@ -357,7 +357,7 @@ public class ServerThread extends Thread {
             		
             		break;
             		
-            		
+            		//Doctor add an appointment
             	case 11:
             		
             		System.out.println("In case 11!");
@@ -400,6 +400,56 @@ public class ServerThread extends Thread {
             		}
             		
             		break;
+            		
+            		//Doctor check all appointment
+            	case 12:
+            		
+            		String DID12 = value.get(0);
+            		System.out.println("DoctorID:"+DID12);
+            		ArrayList<Appointment> appList12 = new ArrayList<Appointment>();
+            		AppointmentInterface AI12 = new AppointmentInterface();
+            		appList12 = AI12.getAppListForDoctor(DID12);
+            		
+            		for(Appointment a: appList12){
+            			System.out.println("AppFforDoc"+a.getAppID());
+            		}
+            		
+            		out.writeObject(appList12);
+            		break;
+            		
+            		//Doctor checkin patient
+            	case 13:
+            		System.out.println("In case 13!!!!");
+            		String PID13 = value.get(0);
+            		String AID13 = value.get(1);
+            		System.out.println("PID+AID"+PID13+AID13);
+            		AppointmentInterface AI13 = new AppointmentInterface();
+            		
+            		AI13.checkinApp(AID13, PID13);
+            		
+            		break;
+            		
+            		//Doctor delete appointment
+            	case 14:
+            		System.out.println("In case 14!!!!");
+            		String AID14 = value.get(0);
+            		System.out.println("AID"+AID14);
+            		AppointmentInterface AI14 = new AppointmentInterface();
+            		AI14.deleteApp(AID14);
+            		
+            		break;
+            		
+            		
+            	case 15:
+            		System.out.println("In case 15!!!!");
+            		String PID15 = value.get(0);
+            		System.out.println("PID"+PID15);
+            		PatientInterface PI15 = new PatientInterface();
+            		Patient P15 = PI15.getPatient(PID15);
+            		out.writeObject(P15);
+            		
+            		break;
+            		
             		
             		}
             	}

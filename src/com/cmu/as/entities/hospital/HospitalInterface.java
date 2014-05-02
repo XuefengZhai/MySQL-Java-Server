@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.cmu.as.dbhelper.DBHelper;
-import com.cmu.as.entities.department.Department;
 
 public class HospitalInterface {
 

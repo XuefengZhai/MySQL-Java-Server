@@ -45,6 +45,19 @@ public class AppointmentInterface {
 
     }
     
+    public void checkinApp(String AppID, String PatID){
+        dbHelper = new DBHelper();
+
+        Map<String, String> values = new HashMap<String,String>();
+        values.put("PatID",PatID);
+        values.put("AppCheckIn", "1");
+        
+
+        dbHelper.update(values,"appointment","AppID", AppID);
+
+    	
+    }
+    
     
     public void cancelApp(String AppID, String PatID){
 
@@ -149,6 +162,49 @@ public class AppointmentInterface {
         return appList;
 
     }
+    
+    
+    public ArrayList<Appointment> getAppListForDoctor(String DID) throws SQLException {
+        dbHelper = new DBHelper();
+
+        ArrayList<Appointment> appList = new ArrayList<Appointment>();
+
+
+
+        ResultSet rs = dbHelper.generalQuery("SELECT * FROM appointment WHERE DocID =\""+DID+"\"");
+        while (rs.next()){
+            
+        	String AppID = rs.getString("AppID");
+            String DocID = rs.getString("DocID");
+            String PatID = rs.getString("PatID");
+            String AppTime = rs.getString("AppTime");
+            String AppDate = rs.getString("AppDate");
+            String AppAvailability = rs.getString("AppAvailability");
+            String AppCheckIn = rs.getString("AppCheckIn");
+            String HosName = rs.getString("HosName");
+            String DocName = rs.getString("DocName");
+
+            Appointment a = new Appointment();
+            
+            a.setAppID(AppID);
+            a.setDocID(DocID);
+            a.setPatID(PatID);
+            a.setAppTime(AppTime);
+            a.setAppDate(AppDate);
+            a.setAppAvailability(AppAvailability);
+            a.setAppCheckIn(AppCheckIn);
+            a.setHosName(HosName);
+            a.setDocName(DocName);
+
+            
+            appList.add(a);
+            
+        }
+
+        return appList;
+
+    }
+    
     
     public ArrayList<Appointment> getAppListFuture(String PID) throws SQLException {
         dbHelper = new DBHelper();
