@@ -119,6 +119,20 @@ public class ServerThread extends Thread {
             		}
             		
             		break;
+            	
+            	case 50:
+            		
+                    ArrayList<Hospital> MallHos = new ArrayList<Hospital>();
+                    
+                    HospitalInterface HI5 = new HospitalInterface();
+                    
+                    MallHos = HI5.getHospitalList();
+
+                    out.writeObject(MallHos);
+                    
+                    System.out.println("Send all hospital! ");
+                    
+            		break;
             		
             	//send department and doctor in the hospital 	
             	case 2:
@@ -279,10 +293,35 @@ public class ServerThread extends Thread {
             		out.writeObject(p2);
             		            		
             		break;
+            	
+            	case 10:
+            		Boolean logIn = false;
+            		while(!logIn){
+            		
+            		String docID = value.get(0);
+            		String docPsw = value.get(1);
+            		System.out.println(docID+docPsw);
+            		
+            		DoctorInterface DocI2 = new DoctorInterface();
+            		
+            		logIn = DocI2.logIn(docID, docPsw);
+            		System.out.println(logIn);
+            		if(logIn){
+            			out.writeObject("1");
+            		}
+            		else
+            			out.writeObject("0");
+            		
+            		}
+            		break;
+            		
+            		
+            	
             	}
             }
 
             out.close();
+            in.close();
 
             serverSocket.close();
 

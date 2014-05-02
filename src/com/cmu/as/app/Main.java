@@ -66,6 +66,15 @@ public class Main {
 		h.setHosLon("77");
 		HI.insertHospital(h);
 		
+		h.setHosID("33");
+		h.setHosName("QQRR");
+		h.setHosAdd("pptt");
+		h.setHosDis("-1");
+		h.setHosPhone("222333");
+		h.setHosLat("22");
+		h.setHosLon("33");
+		HI.insertHospital(h);
+		
 		Department d = new Department();
 		DepartmentInterface DI = new DepartmentInterface();
 		
