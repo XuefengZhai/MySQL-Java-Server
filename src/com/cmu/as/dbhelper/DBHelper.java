@@ -59,11 +59,11 @@ public final class DBHelper  {
             stmt.execute("CREATE TABLE department (DepID VARCHAR(50) PRIMARY KEY, HosID VARCHAR(50), " +
                     "DepName VARCHAR(50))");
             stmt.execute("CREATE TABLE doctor (DocID VARCHAR(50) PRIMARY KEY, DocPsw VARCHAR(10), DepID VARCHAR(50), " +
-                    "DocName VARCHAR(10), DocPhone VARCHAR(10), DocSpeciality VARCHAR(20))");
+                    "DocName VARCHAR(50), DocPhone VARCHAR(10), DocSpeciality VARCHAR(20))");
             stmt.execute("CREATE TABLE patient (PatID VARCHAR(50) PRIMARY KEY, PatPsw VARCHAR(10), " +
-                    "PatName VARCHAR(10), PatAge VARCHAR(3), PatGender VARCHAR(10), PatInsurance VARCHAR(10))");
+                    "PatName VARCHAR(50), PatAge VARCHAR(3), PatGender VARCHAR(10), PatInsurance VARCHAR(10))");
            stmt.execute("CREATE TABLE appointment (AppID VARCHAR(50) PRIMARY KEY, DocID VARCHAR(50), PatID VARCHAR(50), " +
-                    "AppDate VARCHAR(20), AppTime VARCHAR(20), AppAvailability VARCHAR(10), AppCheckIn VARCHAR(10), HosName VARCHAR(20), DocName VARCHAR(20))");
+                    "AppDate VARCHAR(20), AppTime VARCHAR(20), AppAvailability VARCHAR(10), AppCheckIn VARCHAR(10), HosName VARCHAR(20), DocName VARCHAR(50))");
 
 
             
@@ -75,7 +75,7 @@ public final class DBHelper  {
     	
     }
     
-    public void insert(Map<String, String> values, String table){
+    public synchronized void insert(Map<String, String> values, String table){
     	
         Connection conn = null; 
         Statement stmt = null; 
@@ -113,7 +113,7 @@ public final class DBHelper  {
     	
     }
     
-    public void delete(String table, String whereClause, String whereValue){
+    public synchronized void delete(String table, String whereClause, String whereValue){
         Connection conn = null; 
         Statement stmt = null; 
         
@@ -129,7 +129,7 @@ public final class DBHelper  {
         
     }
     
-    public void update(Map<String, String> values, String table, String whereClause, String whereArgs){
+    public synchronized void update(Map<String, String> values, String table, String whereClause, String whereArgs){
         
     	Connection conn = null; 
         Statement stmt = null; 
@@ -162,7 +162,7 @@ public final class DBHelper  {
 
     }
 
-    public ResultSet query(String table) throws SQLException{
+    public synchronized ResultSet query(String table) throws SQLException{
 
     	Connection conn = null; 
         Statement stmt = null; 
@@ -182,7 +182,7 @@ public final class DBHelper  {
 
     }
     
-    public ResultSet generalQuery(String sql) throws SQLException{
+    public synchronized ResultSet generalQuery(String sql) throws SQLException{
     	Connection conn = null; 
         Statement stmt = null; 
         ResultSet rs;
@@ -198,7 +198,7 @@ public final class DBHelper  {
         return rs;
     }
     
-    public Boolean isExist(String sql) throws SQLException{
+    public synchronized Boolean isExist(String sql) throws SQLException{
     	Connection conn = null; 
         Statement stmt = null; 
     	ResultSet rs = null; 
