@@ -17,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -82,9 +83,9 @@ public class ServerThread extends Thread {
             		}
             		
             		break;
-            	
             	case 50:
-            		
+                	//send manually selected hospital
+
                     ArrayList<Hospital> MallHos = new ArrayList<Hospital>();
                     
                     HospitalInterface HI5 = new HospitalInterface();
@@ -125,7 +126,11 @@ public class ServerThread extends Thread {
                         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
                         double dist = earthRadius * c;
                         
-                        p.setHosDis(Double.toString(dist));
+                        DecimalFormat df = new DecimalFormat("0.00");
+                        String num = df.format(dist);
+                        
+                        
+                        p.setHosDis(num);
                         
                         System.out.print("Mile"+dist);
                         
@@ -143,7 +148,7 @@ public class ServerThread extends Thread {
             		
             		break;
             		
-            		
+            	//Patient sign up
             	case 52:
             		
             		String patID52 = value.get(0);
@@ -304,7 +309,7 @@ public class ServerThread extends Thread {
             		
             		break;
                  	
-            	
+            	//patient update
             	case 9:
             		String PatName = value.get(0);
             		String PatAge = value.get(1);
@@ -439,7 +444,7 @@ public class ServerThread extends Thread {
             		
             		break;
             		
-            		
+            		//Doctor check patient info
             	case 15:
             		System.out.println("In case 15!!!!");
             		String PID15 = value.get(0);
@@ -463,11 +468,10 @@ public class ServerThread extends Thread {
 
             out.close();
         } catch (UnknownHostException e1) {
-            e1.printStackTrace();
+            //System.out.println("A user exit the system");
         } catch (IOException e1) {
-            e1.printStackTrace();
+            System.out.println("A user exit the system");
         } catch (Exception e1) {
-            e1.printStackTrace();
         }
     }
 

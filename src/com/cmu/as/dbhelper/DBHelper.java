@@ -7,12 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Scanner;
 
 
 /**
  * Created by SafenZhai on 4/13/14.
  */
 public final class DBHelper  {
+	private static String user;
+	private static String password;
 	
     public static Connection getConnection() { 
         Connection conn = null; 
@@ -20,8 +23,6 @@ public final class DBHelper  {
         try { 
             String driver = "com.mysql.jdbc.Driver"; // Database Drive
             String url = "jdbc:mysql://localhost:3306/dataserver";// Database
-            String user = "root"; // UserName
-            String password = "111111"; // Password
             Class.forName(driver); // Load Database
             if (null == conn) { 
                 conn = DriverManager.getConnection(url, user, password); 
@@ -38,6 +39,17 @@ public final class DBHelper  {
     } 
     
     public void init(){
+    	
+        System.out.println("Please input your database user name:");
+        Scanner reader = new Scanner(System.in);
+        
+        user = reader.nextLine(); // UserName
+        System.out.println("Please input your database password:");
+
+         password = reader.nextLine(); // Password
+         
+         reader.close();
+
         Connection conn = null; 
         Statement stmt = null; 
         
